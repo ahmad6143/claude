@@ -1,0 +1,20 @@
+# ---- Brand (shown on the last card of every reel) ----
+brand:
+  name: "Your ERP Brand"
+  cta: "Comment DEMO for a free walkthrough"
+  website: "yourdomain.com"
+
+# ---- Who the reels speak to ----
+audience: "owners and managers of small FMCG distributors, fast food outlets and cafes"
+market: "small businesses"        # e.g. "small businesses in Pakistan"
+language: "simple English"        # Latin script only (English or Roman Urdu); see README
+
+# ---- Publishing ----
+publish:
+  platforms: ["instagram"]        # add "youtube" once its credentials are set
+  max_hashtags: 5
+  youtube_privacy: "private"      # stays private until your Google project passes YouTube's audit
+
+# ---- Video ----
+video:
+  total_seconds_target: 25

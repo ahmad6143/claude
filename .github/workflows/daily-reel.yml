@@ -1,0 +1,66 @@
+name: Daily reel
+
+on:
+  schedule:
+    - cron: "0 14 * * *"   # UTC. 14:00 UTC = 19:00 Pakistan time. GitHub may start runs a few minutes late.
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true = render only, false = publish"
+        type: choice
+        options: ["true", "false"]
+        default: "true"
+
+permissions:
+  contents: write   # lets the job commit state/history.json
+
+concurrency:
+  group: daily-reel
+  cancel-in-progress: false
+
+jobs:
+  reel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ffmpeg and fonts
+        run: sudo apt-get update -y && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate, render and (if enabled) publish
+        env:
+          # Manual run input wins; otherwise the REEL_DRY_RUN repo variable; otherwise safe default.
+          DRY_RUN: ${{ inputs.dry_run || vars.REEL_DRY_RUN || 'true' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python -m reelbot.main
+
+      - name: Keep the video for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel-${{ github.run_id }}
+          path: out/*.mp4
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Commit posting history
+        run: |
+          git config user.name "reelbot"
+          git config user.email "reelbot@users.noreply.github.com"
+          git add state/history.json
+          git diff --cached --quiet || (git commit -m "reelbot: log $(date -u +%F)" && git push)

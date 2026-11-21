@@ -1,0 +1,34 @@
+# Ideas rotate across niches; the least recently used idea is picked each day.
+# Add or edit freely. Keep ideas practical and general (no invented statistics).
+niches:
+  fmcg_distribution:
+    - "Expiry and batch tracking so near-expiry stock is sold first"
+    - "Route-wise and salesman-wise daily sales vs target"
+    - "Tracking schemes and trade discounts without spreadsheets"
+    - "Credit limits and receivables ageing for retailers"
+    - "Van sales: closing the day with stock and cash matching"
+    - "Spotting stock-outs at retailers before they cost you sales"
+    - "Purchase planning from actual sell-through, not guesses"
+  fast_food:
+    - "Recipe costing: knowing the real cost of every menu item"
+    - "Tracking daily wastage by item and by shift"
+    - "Multi-branch stock transfers without phone calls"
+    - "Reacting to supplier price changes in your menu margins"
+    - "Peak-hour billing that stays in sync with inventory"
+    - "Ingredient-level stock counts instead of end-of-month surprises"
+  cafe:
+    - "Ingredient-level inventory for beans, milk and syrups"
+    - "Shift-end cash reconciliation in minutes"
+    - "Menu engineering: which items actually make profit"
+    - "Loyalty and repeat customers tracked automatically"
+    - "Preventing stock-outs on your best sellers"
+    - "Daily profit snapshot on your phone"
+
+# Formats rotate so the feed does not feel repetitive.
+styles:
+  - "Common mistake: here is what owners get wrong, and the fix"
+  - "Myth vs reality"
+  - "3 signs your business has outgrown spreadsheets"
+  - "Before vs after: a day in the life with and without the process"
+  - "One quick tip you can use today"
+  - "Question your accountant wishes you could answer"
